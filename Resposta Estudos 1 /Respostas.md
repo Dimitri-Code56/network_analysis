@@ -30,6 +30,6 @@ Exemplo:
 
 ## Questão 8
 o numero de vertices V será de:
-V = (3*3) + (1*5) /2 = (9 +5) /2 = 7
+V = (3x3) + (1x5) /2 = (9+5)/2 = 14/2 = 7
 
 
