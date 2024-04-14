@@ -29,6 +29,7 @@ Exemplo:
 ## Questão 5
 
 ## Questão 8
-usando o handshaking lemma, a resposta é  
+o numero de vertices V será de:
+V = (3*3) + (1*5) /2 = (9 +5) /2 = 7
 
 
