@@ -118,7 +118,7 @@ def load_data_and_build_graph(file_path):
 st.title("Análise de Redes - Métricas e Visualizações")
 
 # Carregar dataset e construir o grafo
-file_path = 'datasets/global_arms_transfer_2000_2023.csv'  # Caminho relativo ao dataset
+file_path = 'https://raw.githubusercontent.com/Dimitri-Code56/network_analysis/main/Datasets/global_arms_transfer_2000_2023.csv'  
 G = load_data_and_build_graph(file_path)
 
 # Seletor de métricas
