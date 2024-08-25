@@ -3,6 +3,7 @@ import networkx as nx
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 # Funções para cálculo de métricas e plotagem
 
@@ -100,6 +101,13 @@ def compute_strongly_weakly_connected_components(G):
     else:
         st.write("O grafo precisa ser dirigido para calcular componentes conectados fortemente.")
 
+# Função para exibir HTML
+
+def display_html(html_file_path):
+    with open(html_file_path, 'r', encoding='utf-8') as file:
+        html_code = file.read()
+    st.components.v1.html(html_code, height=600, scrolling=True)
+
 # Função principal para carregar o dataset e construir o grafo
 
 def load_data_and_build_graph(file_path):
@@ -124,14 +132,16 @@ G = load_data_and_build_graph(file_path)
 # Seletor de métricas
 metric = st.sidebar.selectbox(
     "Escolha uma métrica para visualizar",
-    ["Matriz de Adjacência", "Betweenness Centrality", "Weighted Degree",
+    ["Visualização HTML", "Matriz de Adjacência", "Betweenness Centrality", "Weighted Degree",
      "Degree Centrality", "Clustering Coefficient", "Eigenvector Centrality",
      "Closeness Centrality", "Distribuição de Grau", "Assortatividade", 
      "Esparsidade/Densidade", "Componentes Conectados Fortemente/Fracamente"]
 )
 
 # Mostrar a métrica selecionada
-if metric == "Matriz de Adjacência":
+if metric == "Visualização HTML":
+    display_html('https://raw.githubusercontent.com/Dimitri-Code56/network_analysis/main/Vizualizations/comercio_todos%20(1).html')
+elif metric == "Matriz de Adjacência":
     plot_heatmap_adjacency_matrix(G)
 elif metric == "Betweenness Centrality":
     compute_and_plot_betweenness_centrality(G)
