@@ -1,12 +1,12 @@
 import streamlit as st
+import requests
+import streamlit.components.v1 as components
 import networkx as nx
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
 
 # Funções para cálculo de métricas e plotagem
-
 def plot_heatmap_adjacency_matrix(G):
     adj_matrix = nx.adjacency_matrix(G).todense()
     adj_matrix = np.array(adj_matrix)
@@ -101,15 +101,7 @@ def compute_strongly_weakly_connected_components(G):
     else:
         st.write("O grafo precisa ser dirigido para calcular componentes conectados fortemente.")
 
-# Função para exibir HTML
-
-def display_html(html_file_path):
-    with open(html_file_path, 'r', encoding='utf-8') as file:
-        html_code = file.read()
-    st.components.v1.html(html_code, height=600, scrolling=True)
-
-# Função principal para carregar o dataset e construir o grafo
-
+# Função para carregar o dataset e construir o grafo
 def load_data_and_build_graph(file_path):
     df = pd.read_csv(file_path)
     df = df.dropna()
@@ -121,8 +113,16 @@ def load_data_and_build_graph(file_path):
     
     return G
 
-# Interface do Streamlit
+# Função para exibir HTML
+def display_html(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        html_content = response.text
+        components.html(html_content, height=800, scrolling=True)
+    else:
+        st.write("Failed to load HTML content.")
 
+# Interface do Streamlit
 st.title("Análise de Redes - Métricas e Visualizações")
 
 # Carregar dataset e construir o grafo
@@ -132,16 +132,15 @@ G = load_data_and_build_graph(file_path)
 # Seletor de métricas
 metric = st.sidebar.selectbox(
     "Escolha uma métrica para visualizar",
-    ["Visualização HTML", "Matriz de Adjacência", "Betweenness Centrality", "Weighted Degree",
+    ["Matriz de Adjacência", "Betweenness Centrality", "Weighted Degree",
      "Degree Centrality", "Clustering Coefficient", "Eigenvector Centrality",
      "Closeness Centrality", "Distribuição de Grau", "Assortatividade", 
-     "Esparsidade/Densidade", "Componentes Conectados Fortemente/Fracamente"]
+     "Esparsidade/Densidade", "Componentes Conectados Fortemente/Fracamente",
+     "Visualização HTML"]
 )
 
 # Mostrar a métrica selecionada
-if metric == "Visualização HTML":
-    display_html('https://raw.githubusercontent.com/Dimitri-Code56/network_analysis/main/Vizualizations/comercio_todos%20(1).html')
-elif metric == "Matriz de Adjacência":
+if metric == "Matriz de Adjacência":
     plot_heatmap_adjacency_matrix(G)
 elif metric == "Betweenness Centrality":
     compute_and_plot_betweenness_centrality(G)
@@ -163,3 +162,6 @@ elif metric == "Esparsidade/Densidade":
     compute_sparsity_density(G)
 elif metric == "Componentes Conectados Fortemente/Fracamente":
     compute_strongly_weakly_connected_components(G)
+elif metric == "Visualização HTML":
+    html_url = 'https://raw.githubusercontent.com/Dimitri-Code56/network_analysis/main/Vizualizations/comercio_todos%20(1).html'
+    display_html(html_url)
